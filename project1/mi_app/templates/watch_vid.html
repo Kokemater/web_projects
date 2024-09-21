@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Ver vídeo
+{% endblock %}
+
+{% block content %}
+<body>
+    <button onclick="mostrarVideo()">Mostrar Video</button>
+
+    <div id="video-container">
+        <video id="mi-video" width="640" height="480" controls>
+            <source src="{{ video_url }}" type="video/mp4">
+            Tu navegador no soporta el elemento de video.
+        </video>
+    </div>
+{% endblock %}

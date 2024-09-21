@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mi Sitio{% endblock %}</title>
+    <!-- MathJax for rendering LaTeX -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        function mostrarVideo() {
+            const videoContainer = document.getElementById('video-container');
+            videoContainer.style.display = 'block'; // Mostrar el contenedor del video
+            const video = document.getElementById('mi-video');
+            video.play(); // Reproducir el video
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Header or Navigation bar could go here -->
+    <header>
+        <h1>Mi Aplicación LaTeX</h1>
+    </header>
+
+    <!-- Content block to be replaced by child templates -->
+    <div id="content">
+        {% block content %}
+        <!-- Child templates will inject their content here -->
+        {% endblock %}
+    </div>
+
+    <!-- Optional footer -->
+    <footer>
+        <p>Mi Sitio - 2024</p>
+    </footer>
+
+</body>
+</html>

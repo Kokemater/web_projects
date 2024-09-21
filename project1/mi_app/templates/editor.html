@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Editor de LaTeX
+{% endblock %}
+
+{% block content %}
+    <h2>Editor de LaTeX</h2>
+
+    <div id="toolbar">
+        <button onclick="addSymbol('\\alpha')">α</button>
+        <button onclick="addSymbol('\\beta')">β</button>
+        <button onclick="addSymbol('\\gamma')">γ</button>
+        <button onclick="addSymbol('\\int')">∫</button>
+        <button onclick="addSymbol('\\sqrt{}')">√</button>
+        <button onclick="addSymbol('\\frac{}{}')">frac</button>
+        <button onclick="addSymbol('\\sum')">∑</button>
+        <button onclick="addSymbol('\\pi')">π</button>
+        <button onclick="addSymbol('\\infty')">∞</button>
+        <!-- Añade más botones según los símbolos que quieras -->
+    </div>
+    <form action="{% url 'recibir_texto' %}" method="post">
+        {% csrf_token %}
+        <textarea name="inputText" id="latex-input" rows="10" cols="50" placeholder="Escribe aquí el código LaTeX"></textarea>
+        <button type="submit">Enviar</button>
+    </form>
+    <h3>Vista previa:</h3>
+    <!-- Div for rendering the LaTeX output -->
+    <div id="preview"></div>
+
+    <script>
+        // Get references to the textarea and preview div
+        const input = document.getElementById('latex-input');
+        const preview = document.getElementById('preview');
+
+        // Function to render LaTeX using MathJax
+        function updatePreview() {
+            preview.innerHTML = input.value;
+            MathJax.typesetPromise([preview]);
+        }
+
+        // Add event listener to update the preview as the user types
+        input.addEventListener('input', updatePreview);
+        
+        function addSymbol(symbol) {
+            const cursorPos = input.selectionStart;  // Posición actual del cursor
+            const textBefore = input.value.substring(0, cursorPos);  // Texto antes del cursor
+            const textAfter = input.value.substring(cursorPos);  // Texto después del cursor
+
+            // Insertar el símbolo en la posición actual
+            input.value = textBefore + symbol + textAfter;
+
+            // Mover el cursor justo después del símbolo insertado
+            input.selectionStart = input.selectionEnd = cursorPos + symbol.length;
+
+            // Actualizar la vista previa después de insertar el símbolo
+            updatePreview();
+        }
+
+        // Actualiza la vista previa cada vez que el usuario escribe
+        input.addEventListener('input', updatePreview);
+    </script>
+{% endblock %}
