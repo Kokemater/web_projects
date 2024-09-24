@@ -1,63 +1,464 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Editor de LaTeX
+Math Editor
 {% endblock %}
 
 {% block content %}
-    <h2>Editor de LaTeX</h2>
+<input type="hidden" id="csrf_token" value="{{ csrf_token }}">
 
-    <div id="toolbar">
-        <button onclick="addSymbol('\\alpha')">α</button>
-        <button onclick="addSymbol('\\beta')">β</button>
-        <button onclick="addSymbol('\\gamma')">γ</button>
-        <button onclick="addSymbol('\\int')">∫</button>
-        <button onclick="addSymbol('\\sqrt{}')">√</button>
-        <button onclick="addSymbol('\\frac{}{}')">frac</button>
-        <button onclick="addSymbol('\\sum')">∑</button>
-        <button onclick="addSymbol('\\pi')">π</button>
-        <button onclick="addSymbol('\\infty')">∞</button>
-        <!-- Añade más botones según los símbolos que quieras -->
-    </div>
-    <form action="{% url 'recibir_texto' %}" method="post">
-        {% csrf_token %}
-        <textarea name="inputText" id="latex-input" rows="10" cols="50" placeholder="Escribe aquí el código LaTeX"></textarea>
-        <button type="submit">Enviar</button>
-    </form>
-    <h3>Vista previa:</h3>
-    <!-- Div for rendering the LaTeX output -->
-    <div id="preview"></div>
+<div class="cover-container">
+    <h2 class="cover-title" id="main-title">MATH EDITOR</h2>
+</div>
+<div class="container mt-3">
 
-    <script>
-        // Get references to the textarea and preview div
-        const input = document.getElementById('latex-input');
-        const preview = document.getElementById('preview');
+    <div id="main-container">
+ <!-- Toolbar -->
 
-        // Function to render LaTeX using MathJax
-        function updatePreview() {
-            preview.innerHTML = input.value;
-            MathJax.typesetPromise([preview]);
-        }
+ <div class="d-flex flex-wrap" role="group" aria-label="Toolbar">
+    <!-- Sección de Operaciones -->
+        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            ¬
+        </button>
+        <ul class="dropdown-menu scrollable-menu">
+            <li><button class="dropdown-item" onclick="addSymbol('\\text{+} ')">+ Plus</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\text{-} ')">− Minus</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\text{!} ')">! Factorial</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\# ')"># Primorial</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\neg ')">¬ Not</button></li>
+        </ul>
 
-        // Add event listener to update the preview as the user types
-        input.addEventListener('input', updatePreview);
+
+    <!-- Sección de Operaciones -->
+        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            ∅
+        </button>
+        <ul class="dropdown-menu scrollable-menu">
+            <li><button class="dropdown-item" onclick="addSymbol('\\emptyset ')">∅ Empty set</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\mathbb{N} ')">ℕ Set of natural numbers</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\mathbb{Z} ')">ℤ Set of integers</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\mathbb{Q} ')">ℚ Set of rational numbers</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\mathbb{A} ')">ℱ Set of algebraic numbers</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\mathbb{R} ')">ℝ Set of real numbers</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\mathbb{C} ')">ℂ Set of complex numbers</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\mathbb{H} ')">ℍ Set of quaternions</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\mathbb{O} ')">𝕆 Set of octonions</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\mathbb{S} ')">𝕊 Set of sedenions</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\in ')">∈ Is member of</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\notin ')">∉ Is not member of</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\ni ')">∋ Owns (has member)</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\subset ')">⊂ Is proper subset of</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\subseteq ')">⊆ Is subset of</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\supset ')">⊃ Is proper superset of</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\supseteq ')">⊇ Is superset of</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\cup ')">∪ Set union</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\cap ')">∩ Set intersection</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\setminus ')">∖ Set difference</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\exists ')">∃ There exists at least one</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\exists! ')">∃! There exists one and only one</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\nexists ')">∄ There is no</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\forall ')">∀ For all</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\neg ')">¬ Not (logical not)</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\lor ')">∨ Or (logical or)</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\land ')">∧ And (logical and)</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Longrightarrow ')">⟹ Implies</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Rightarrow ')">⇒ Preferred for right implication</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Longleftarrow ')">⟸ Is implied by (only if)</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Leftarrow ')">⇐ Preferred for left implication</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\iff ')">⟺ Is equivalent to (if and only if)</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Leftrightarrow ')">⇔ Preferred for equivalence</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\top ')">⊤ True (logic)</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\bot ')">⊥ False (logic)</button></li>
+        </ul> 
+
+
+        <!-- Sección de Operaciones -->
+            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                ¬
+            </button>
+            <ul class="dropdown-menu scrollable-menu">
+                <li><button class="dropdown-item" onclick="addSymbol('\\neq ')">≠ Not equal to</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\notin ')">∉ Not member of</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nless ')">≮ Not less than</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\ngtr ')">≯ Not greater than</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nleq ')">≰ Not less than or equal to</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\ngeq ')">≥ Not greater than or equal to</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nleqslant ')">⪇</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\ngeqslant ')">⪈</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nleqq ')">≰</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\ngeqq ')">≱</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\lneq ')">⪇</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\gneq ')">⪈</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\lneqq ')">≨</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\gneqq ')">≩</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\lvertneqq ')">≨</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\gvertneqq ')">≩</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\lnsim ')">⋦</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\gnsim ')">⋧</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\lnapprox ')">⪉</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\gnapprox ')">⪊</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nprec ')">⊀ Does not precede</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nsucc ')">⊁ Does not succeed</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\npreceq ')">⋠ Neither precedes nor equals</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nsucceq ')">⋡ Neither succeeds nor equals</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\precneqq ')">⪵</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\succneqq ')">⪶</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\precnsim ')">⋨</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\succnsim ')">⋩</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\precnapprox ')">⪹</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\succnapprox ')">⪺</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nsim ')">≁ Not similar to</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\ncong ')">≆ Not congruent to</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nshortmid ')">∤</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nshortparallel ')">∦</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nmid ')">∤</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nparallel ')">∦ Not parallel with</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nvdash ')">⊬</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nvDash ')">⊭</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nVdash ')">⊮</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nVDash ')">⊯</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\ntriangleleft ')">⋪</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\ntriangleright ')">⋫</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\ntrianglelefteq ')">⋬</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\ntrianglerighteq ')">⋭</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nsubseteq ')">⊈</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nsupseteq ')">⊉</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nsubseteqq ')">⊈</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nsupseteqq ')">⊉</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\subsetneq ')">⊊</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\supsetneq ')">⊋</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\varsubsetneq ')">⊊</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\varsupsetneq ')">⊋</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\subsetneqq ')">⫋</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\supsetneqq ')">⫌</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\varsubsetneqq ')">⫋</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\varsupsetneqq ')">⫌</button></li>
+            </ul>
+    
+        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            +
+        </button>
+        <ul class="dropdown-menu scrollable-menu">
+            <li><button class="dropdown-item" onclick="addSymbol('\\pm ')">± Plus or minus</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\cap ')">∩ Set intersection</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\diamond ')">⋄</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\oplus ')">⊕</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\mp ')">∓ Minus or plus</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\cup ')">∪ Set union</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\bigtriangleup ')">△</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\ominus ')">⊖</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\times ')">× Multiplied by</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\uplus ')">⊎ Multiset addition</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\bigtriangledown ')">▽</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\otimes ')">⊗</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\div ')">÷ Divided by</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\sqcap ')">⊓</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\triangleleft ')">◃</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\oslash ')">⊘</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\ast ')">∗ Asterisk</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\sqcup ')">⊔</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\triangleright ')">▹</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\odot ')">⊙</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\star ')">⋆</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\vee ')">∨</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\bigcirc ')">◯</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\circ ')">∘</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\dagger ')">†</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\wedge ')">∧</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\bullet ')">∙</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\setminus ')">∖ Set difference</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\ddagger ')">‡</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\cdot ')">⋅</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\wr ')">≀</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\amalg ')">⨿</button></li>
+        </ul>
+
+        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            ≥
+        </button>
+        <ul class="dropdown-menu scrollable-menu">
+            <li><button class="dropdown-item" onclick="addSymbol('\\text{<} ')">&lt; Is less than</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\text{>} ')">&gt; Is greater than</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\nless ')">≮ Is not less than</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\ngtr ')">≯ Is not greater than</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\leq ')">≤ Is less than or equal to</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\geq ')">≥ Is greater than or equal to</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\leqslant ')">⩽ Is less than or equal to</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\geqslant ')">⩾ Is greater than or equal to</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\nleq ')">≰ Is neither less than nor equal to</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\ngeq ')">≱ Is neither greater than nor equal to</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\nleqslant ')">⪇ Is neither less than nor equal to</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\ngeqslant ')">⪈ Is neither greater than nor equal to</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\prec ')">≺ Precedes</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\succ ')">≻ Succeeds</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\nprec ')">⊀ Doesn't precede</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\nsucc ')">⊁ Doesn't succeed</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\preceq ')">⪯ Precedes or equals</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\succeq ')">⪰ Succeeds or equals</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\npreceq ')">⋠ Neither precedes nor equals</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\nsucceq ')">⋡ Neither succeeds nor equals</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\ll ')">≪</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\gg ')">≫</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\lll ')">⋘</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\ggg ')">⋙</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\subset ')">⊂ Is a proper subset of</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\supset ')">⊃ Is a proper superset of</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\not\\subset ')">⊄ Is not a proper subset of</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\not\\supset ')">⊅ Is not a proper superset of</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\subseteq ')">⊆ Is a subset of</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\supseteq ')">⊇ Is a superset of</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\nsubseteq ')">⊈ Is not a subset of</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\nsupseteq ')">⊉ Is not a superset of</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\sqsubset ')">⊏</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\sqsupset ')">⊐</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\sqsubseteq ')">⊑</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\sqsupseteq ')">⊒</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\parallel ')">∥ Is parallel with</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\nparallel ')">∦ Is not parallel with</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\asymp ')">≍ Is asymptotic to</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\bowtie ')">⋈</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\vdash ')">⊢</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\dashv ')">⊣</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\in ')">∈ Is member of</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\ni ')">∋ Owns, has member</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\smile ')">⌣</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\frown ')">⌢</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\models ')">⊨ Models</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\notin ')">∉ Is not member of</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\perp ')">⊥ Is perpendicular with</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\mid ')">∣ Divides</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('=')">= Is equal to</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\doteq ')">≐</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\equiv ')">≡ Is equivalent to</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\approx ')">≈ Is approximately</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\cong ')">≅ Is congruent to</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\simeq ')">≃ Is similar or equal to</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\sim ')">∼ Is similar to</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\propto ')">∝ Is proportional to</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\neq ')">≠ Is not equal to</button></li>
+        </ul>
         
-        function addSymbol(symbol) {
-            const cursorPos = input.selectionStart;  // Posición actual del cursor
-            const textBefore = input.value.substring(0, cursorPos);  // Texto antes del cursor
-            const textAfter = input.value.substring(cursorPos);  // Texto después del cursor
+    <!-- Sección de Letras Griegas -->
+        <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            α
+        </button>
+        <ul class="dropdown-menu scrollable-menu">
+            <li><button class="dropdown-item" onclick="addSymbol('\\Alpha ')">A Alpha</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\alpha ')">α Alpha</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Nu ')">N Nu</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\nu ')">ν Nu</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Beta ')">B Beta</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\beta ')">β Beta</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Xi ')">Ξ Xi</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\xi ')">ξ Xi</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Gamma ')">Γ Gamma</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\gamma ')">γ Gamma</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Omicron ')">O Omicron</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\omicron ')">o Omicron</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Delta ')">Δ Delta</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\delta ')">δ Delta</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Pi ')">Π Pi</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\pi ')">π Pi</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\varpi ')">ϖ Varpi</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Epsilon ')">E Epsilon</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\epsilon ')">ϵ Epsilon</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\varepsilon ')">ε Epsilon</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Rho ')">P Rho</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\rho ')">ρ Rho</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\varrho ')">ϱ Varrho</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Zeta ')">Z Zeta</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\zeta ')">ζ Zeta</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Sigma ')">Σ Sigma</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\sigma ')">σ Sigma</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\varsigma ')">ς Varsigma</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Eta ')">H Eta</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\eta ')">η Eta</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Tau ')">T Tau</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\tau ')">τ Tau</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Theta ')">Θ Theta</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\theta ')">θ Theta</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\vartheta ')">ϑ Vartheta</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Upsilon ')">Υ Upsilon</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\upsilon ')">υ Upsilon</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Iota ')">I Iota</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\iota ')">ι Iota</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Phi ')">Φ Phi</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\phi ')">ϕ Phi</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\varphi ')">φ Varphi</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Kappa ')">K Kappa</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\kappa ')">κ Kappa</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\varkappa ')">ϰ Varkappa</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Chi ')">X Chi</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\chi ')">χ Chi</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Lambda ')">Λ Lambda</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\lambda ')">λ Lambda</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Psi ')">Ψ Psi</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\psi ')">ψ Psi</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Mu ')">M Mu</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\mu ')">μ Mu</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Omega ')">Ω Omega</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\omega ')">ω Omega</button></li>
+        </ul>
+        <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            ∠
+        </button>
+        <ul class="dropdown-menu scrollable-menu">
+                <li><button class="dropdown-item" onclick="addSymbol('\\overline{\\rm AB} ')">AB Segment</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\overrightarrow{\\rm AB} ')">→ AB Ray (half-line)</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\angle ')">∠ Angle</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\measuredangle ')">∡ Measured angle</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\triangle ')">△ Triangle</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\square ')">◻ Square</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\cong ')">≅ Congruent (same shape and size)</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\ncong ')">≆ Not congruent</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\sim ')">∼ Similar (same shape)</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nsim ')">≁ Not similar</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\| ')">‖ Is parallel with</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nparallel ')">∦ Is not parallel with</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\perp ')">⊥ Is perpendicular to</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\not\\perp ')">⊥̸ Is not perpendicular to</button></li>
+        </ul>
+    <!-- Sección de Números -->
+        <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            ()
+        </button>
+        <ul class="dropdown-menu scrollable-menu">
+            <li><button class="dropdown-item" onclick="addSymbol('| ')">| Divides</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\| ')">‖ Divides unitarily, is parallel with</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('/ ')">/ Slash</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\backslash ')">∖ Backslash</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('(')"> ( Left parenthesis</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol(')')">) Right parenthesis</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('[')">[ Left [square] bracket</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol(']')">] Right [square] bracket</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('{')"> { Left brace</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('}')">} Right brace</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\langle ')">⟨ Left angle bracket</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\rangle ')">⟩ Right angle bracket</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\lceil ')">⌈ Ceiling (left)</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\rceil ')">⌉ Ceiling (right)</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\lfloor ')">⌊ Floor (left)</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\rfloor ')">⌋ Floor (right)</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\ulcorner ')">⌜ Upper left corner</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\urcorner ')">⌝ Upper right corner</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\llcorner ')">⌞ Lower left corner</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\lrcorner ')">⌟ Lower right corner</button></li>
+        </ul>
+        
+    <!-- Sección de Relación y Conjuntos -->
+        <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            ⊆
+        </button>
+        <ul class="dropdown-menu">
+            <li><button class="dropdown-item" onclick="addSymbol('\\subset ')">⊆ Subconjunto</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\cup ')">∪ Unión</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\cap ')">∩ Intersección</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\in ')">∈ Pertenece</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\forall ')">∀ Para todo</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\exists ')">∃ Existe</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\implies ')">⇒ Implica</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\equiv ')">≡ Equivalente</button></li>
+            <!-- Agrega más símbolos de relación y conjuntos aquí -->
+        </ul>
 
-            // Insertar el símbolo en la posición actual
-            input.value = textBefore + symbol + textAfter;
 
-            // Mover el cursor justo después del símbolo insertado
-            input.selectionStart = input.selectionEnd = cursorPos + symbol.length;
+        <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            →
+        </button>
+        <ul class="dropdown-menu scrollable-menu">
+            <li><button class="dropdown-item" onclick="addSymbol('\\rightarrow ')">→ \rightarrow</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Rightarrow ')">⇒ \Rightarrow</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\longrightarrow ')">⟶ \longrightarrow</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Longrightarrow ')">⟹ \Longrightarrow</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\mapsto ')">↦ \mapsto</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\longmapsto ')">⟼ \longmapsto</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\leftarrow ')">← \leftarrow</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\gets ')">← \gets</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Leftarrow ')">⇐ \Leftarrow</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\longleftarrow ')">⟵ \longleftarrow</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Longleftarrow ')">⟸ \Longleftarrow</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\uparrow ')">↑ \uparrow</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Uparrow ')">⇑ \Uparrow</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\downarrow ')">↓ \downarrow</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Downarrow ')">⇓ \Downarrow</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\updownarrow ')">↕ \updownarrow</button></li>
+            <li><button class="dropdown-item" onclick="addSymbol('\\Updownarrow ')">⇕ \Updownarrow</button></li>
+        </ul>
 
-            // Actualizar la vista previa después de insertar el símbolo
-            updatePreview();
-        }
+        <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            sin
+        </button>
+<ul class="dropdown-menu scrollable-menu">
+    <li><button class="dropdown-item" onclick="addSymbol('\\sin ')">sin \sin</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\arcsin ')">arcsin \arcsin</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\csc ')">csc \csc</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\operatorname{arccsc} ')">arccsc \operatorname{arccsc}</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\cos ')">cos \cos</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\arccos ')">arccos \arccos</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\sec ')">sec \sec</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\operatorname{arcsec} ')">arcsec \operatorname{arcsec}</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\tan ')">tan \tan</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\arctan ')">arctan \arctan</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\cot ')">cot \cot</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\operatorname{arccot} ')">arccot \operatorname{arccot}</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\sinh ')">sinh \sinh</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\operatorname{arsinh} ')">arsinh \operatorname{arsinh}</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\operatorname{csch} ')">csch \operatorname{csch}</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\operatorname{arcsch} ')">arcsch \operatorname{arcsch}</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\cosh ')">cosh \cosh</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\operatorname{arcosh} ')">arcosh \operatorname{arcosh}</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\operatorname{sech} ')">sech \operatorname{sech}</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\operatorname{arsech} ')">arsech \operatorname{arsech}</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\tanh ')">tanh \tanh</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\operatorname{artanh} ')">artanh \operatorname{artanh}</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\coth ')">coth \coth</button></li>
+    <li><button class="dropdown-item" onclick="addSymbol('\\operatorname{arcoth} ')">arcoth \operatorname{arcoth}</button></li>
+        </ul>
 
-        // Actualiza la vista previa cada vez que el usuario escribe
-        input.addEventListener('input', updatePreview);
-    </script>
+        <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            ∂
+        </button>
+        <ul class="dropdown-menu scrollable-menu">
+                <li><button class="dropdown-item" onclick="addSymbol('\\partial ')">∂ \partial</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\imath ')">ı \imath</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\Re ')">ℜ \Re</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\nabla ')">∇ \nabla</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\eth ')">ð \eth</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\jmath ')">ȷ \jmath</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\Im ')">ℑ \Im</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\Box ')">◻ \Box</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\hbar ')">ℏ \hbar</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\ell ')">ℓ \ell</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\wp ')">℘ \wp</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\infty ')">∞ \infty</button></li>
+            </ul>
+        </ul>
+
+
+        <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            ℵ
+        </button>
+            <ul class="dropdown-menu scrollable-menu">
+                <li><button class="dropdown-item" onclick="addSymbol('\\aleph ')">ℵ \aleph</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\beth ')">ℶ \beth</button></li>
+                <li><button class="dropdown-item" onclick="addSymbol('\\gimel ')">ℷ \gimel</button></li>
+            </ul>
+        </ul>
+    
+
+</div>
+
+    <div class="container mt-3">
+        <h1>Editor de LaTeX</h1>
+    
+        <button id="create-div-btn" class="btn btn-info mb-3">Crear nueva sección</button>
+    
+        <form action="{% url 'recibir_texto' %}" method="post">
+            {% csrf_token %}
+            
+            <div id="dynamic-sections"></div>
+    
+            <button type="submit" class="btn btn-success mt-3">Enviar</button>
+        </form>
+    </div>
 {% endblock %}

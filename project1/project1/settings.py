@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-fpo!u&ej1%wseh&&-9e!bom09bwk8zmkc(j3yji$#9qj)=4d*7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -52,6 +52,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'project1.urls'
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://metal-ads-travel.loca.lt',
+]
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

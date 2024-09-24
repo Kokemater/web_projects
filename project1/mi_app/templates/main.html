@@ -6,5 +6,5 @@ Editor de LaTeX
 
 {% block content %}
 <h1>Bienvenido a mi página</h1>
-    <button onclick="location.href='http://127.0.0.1:8000/editor'">Ir a Ejemplo</button>
+<button onclick="location.href='{% url 'editor' %}'">Ir a Ejemplo</button>
 {% endblock %}
