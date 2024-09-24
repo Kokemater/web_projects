@@ -27,7 +27,6 @@
 
 
 
-let sectionCounter = 0;
 let activeTextarea = null;
 
 // Detectar el textarea activo cuando recibe el foco
@@ -55,6 +54,72 @@ function addSymbol(symbol) {
     // Devolver el foco al textarea
     activeTextarea.focus();
 }
+
+    let sectionCounter = 0; // Contador para secciones de LaTeX
+    let attributeCounter = 0; // Contador para atributos de texto
+
+    // Función para crear una nueva sección de LaTeX
+    function createNewSection() {
+        sectionCounter++;
+
+        const container = document.createElement('div');
+        container.classList.add('section-container', 'mb-3'); // Añadir espacio entre secciones
+
+        const textareaContainer = document.createElement('div');
+        textareaContainer.classList.add('textarea-container');
+
+        const textarea = document.createElement('textarea');
+        textarea.name = 'inputText-' + sectionCounter; // Asegurarse de que el nombre sea único
+        textarea.id = 'latex-input-' + sectionCounter;
+        textarea.value = '\\( \\)'; // Agregar \( \)
+        textarea.classList.add('textarea', 'form-control');
+        textarea.setAttribute('placeholder', 'Escribe aquí el código LaTeX');
+        textarea.style.width = "100%"; // Hacer que el textarea ocupe todo el ancho disponible
+
+        textareaContainer.appendChild(textarea);
+        container.appendChild(textareaContainer);
+
+        const previewContainer = document.createElement('div');
+        previewContainer.classList.add('preview-container', 'mi-clase');
+        previewContainer.id = 'preview-' + sectionCounter;
+        previewContainer.innerHTML = `<div></div>`;
+        container.appendChild(previewContainer);
+
+        // Insertar el nuevo contenedor al final de dynamicSections
+        document.getElementById('dynamic-sections').appendChild(container);
+    }
+
+    // Función para añadir un atributo a texto
+    function createAttributeSection() {
+        attributeCounter++;
+
+        const container = document.createElement('div');
+        container.classList.add('attribute-container', 'mb-2');
+
+        const textInput = document.createElement('input');
+        textInput.type = 'text';
+        textInput.name = 'text_attribute-' + attributeCounter;
+        textInput.classList.add('form-control', 'mb-1');
+        textInput.placeholder = 'Texto';
+
+        const colorInput = document.createElement('input');
+        colorInput.type = 'color';
+        colorInput.name = 'color_attribute-' + attributeCounter;
+        colorInput.classList.add('form-control');
+
+        container.appendChild(textInput);
+        container.appendChild(colorInput);
+
+        // Insertar el nuevo contenedor al final de dynamicAttributes
+        document.getElementById('dynamic-attributes').appendChild(container);
+    }
+
+// Evento para crear nuevas secciones
+document.getElementById('create-div-btn').addEventListener('click', createNewSection);
+// Evento para añadir atributos
+document.getElementById('create-attribute-btn').addEventListener('click', createAttributeSection);
+
+    /*  
 document.addEventListener('DOMContentLoaded', function() {
     const createDivBtn = document.getElementById('create-div-btn');
     const dynamicSections = document.getElementById('dynamic-sections');
@@ -65,6 +130,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     function createNewSection() {
+        let sectionCounter = 0;
+
         sectionCounter++;
     
         // Crear un nuevo contenedor para la sección
@@ -114,6 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
     createDivBtn.addEventListener('click', createNewSection);
 
 });
+*/
 function toggleGreekLetters() {
     var lettersDiv = document.getElementById('greekLetters');
     if (lettersDiv.style.display === 'none') {
@@ -123,10 +191,4 @@ function toggleGreekLetters() {
     }
 }
 
-
-
-AOS.init({
-    duration: 1000, // Duración de la animación en milisegundos
-    easing: 'ease-in-out', // Efecto de transición
-    once: true // Solo se anima una vez cuando se desplaza hacia abajo
-});
+////////////////////////////////////// Propperties

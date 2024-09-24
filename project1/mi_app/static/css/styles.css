@@ -3,12 +3,18 @@
  https://paletadecolores.com.mx/paleta/4b19dc/6932e5/864bee/a464f6/c17dff/ 
 */
 /* Estilo para centrar el título y hacerlo llamativo con degradado */
+
+#inputContainer {
+    display: none; /* Inicialmente oculto */
+    margin-top: 10px;
+}
 .cover-title {
     text-align: center; /* Centrar el texto */
     font-size: 6rem; /* Tamaño de fuente grande */
     font-weight: bold; /* Texto en negrita */
     background: linear-gradient(90deg, #f39898, #f1c4c4, #f39898); /* Degradado utilizando el tono principal */
-    -webkit-background-clip: text; /* Recorta el fondo para que se vea solo en el texto */
+    -webkit-background-clip: text;
+    background-clip: text; /* Recorta el fondo para que se vea solo en el texto */
     -moz-background-clip: text; /* Soporte para Firefox */
     color: transparent; /* Hace el color del texto transparente */
     padding: 120px 0; /* Espaciado interno grande */

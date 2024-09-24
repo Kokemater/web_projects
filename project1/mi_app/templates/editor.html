@@ -10,6 +10,7 @@ Math Editor
 <div class="cover-container">
     <h2 class="cover-title" id="main-title">MATH EDITOR</h2>
 </div>
+
 <div class="container mt-3">
 
     <div id="main-container">
@@ -447,18 +448,21 @@ Math Editor
     
 
 </div>
+   
+<div class="container mt-3">
+    <h1>Editor de LaTeX</h1>
+    <button id="create-div-btn" class="btn btn-info mb-3">Crear nueva sección</button>
+    <button id="create-attribute-btn" class="btn btn-warning mb-3">Añadir atributo a texto</button>
 
-    <div class="container mt-3">
-        <h1>Editor de LaTeX</h1>
-    
-        <button id="create-div-btn" class="btn btn-info mb-3">Crear nueva sección</button>
-    
-        <form action="{% url 'recibir_texto' %}" method="post">
-            {% csrf_token %}
-            
-            <div id="dynamic-sections"></div>
-    
-            <button type="submit" class="btn btn-success mt-3">Enviar</button>
-        </form>
-    </div>
+    <form action="{% url 'recibir_texto' %}" method="post">
+        {% csrf_token %}
+        
+        <div id="dynamic-sections"></div>
+        <div id="dynamic-attributes"></div> <!-- Contenedor para atributos de texto -->
+
+        <button type="submit" class="btn btn-success mt-3">Enviar</button>
+    </form>
+</div>
+
+
 {% endblock %}

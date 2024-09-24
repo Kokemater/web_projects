@@ -6,7 +6,7 @@ class NameofAnimation(Scene):
         math_text = []
 
         # Crear objetos MathTex a partir de los textos
-        for text in [" \\emptyset  \\cap  \\text{>}  ", " \\beth  \\imath   "]:       
+        for text in [" ASDFASDF "]:       
             math_text.append(MathTex(text))  # Agrega cada MathTex a la lista
 
         # Mostrar los textos
@@ -14,6 +14,7 @@ class NameofAnimation(Scene):
             if i == 0:
                 self.play(Write(math_text[i])) 
             else:
+                self.add_sound("mi_app/static/sounds/swap.mp3")
                 self.play(Transform(math_text[i-1], math_text[i]))
             self.wait(2)
             self.remove(math_text[i-1])
