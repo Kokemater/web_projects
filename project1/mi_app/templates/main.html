@@ -1,10 +1,32 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Editor de LaTeX
+Math Editor
 {% endblock %}
 
 {% block content %}
-<h1>Bienvenido a mi página</h1>
-<button onclick="location.href='{% url 'editor' %}'">Ir a Ejemplo</button>
+<input type="hidden" id="csrf_token" value="{{ csrf_token }}">
+
+<div class="cover-container">
+    <h2 class="cover-title" id="main-title">Pro LaTeX</h2>
+</div>
+
+<div class="container mt-3">
+
+<div id="main-container">
+<div class="container mt-3">
+    <h1 class="text-center">Scientific EDITOR</h1>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet nobis possimus, earum numquam illo ratione cum officia in, repudiandae autem magni, est nemo? Tempore explicabo esse quibusdam laboriosam fuga ratione!
+</div>
+<div class="container mt-3"></div>
+    <h1 class="text-center">About us</h1>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet nobis possimus, earum numquam illo ratione cum officia in, repudiandae autem magni, est nemo? Tempore explicabo esse quibusdam laboriosam fuga ratione!
+</div>
+<div class="container mt-3"></div>
+    <h1 class="text-center">Suggestions</h1>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet nobis possimus, earum numquam illo ratione cum officia in, repudiandae autem magni, est nemo? Tempore explicabo esse quibusdam laboriosam fuga ratione!
+</div>
+
+</div>
+
 {% endblock %}

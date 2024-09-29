@@ -34,16 +34,16 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Inicio <span class="sr-only">(actual)</span></a>
+                    <a class="nav-link" href="{% url 'main' %}">Inicio <span class="sr-only">(actual)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Funcionalidades</a>
+                    <a class="nav-link" href="{% url 'editor' %}">LaTeX Editor</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Sobre Nosotros</a>
+                    <a class="nav-link" href="{% url 'graph_funcs' %}">Graph Functions</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contacto</a>
+                    <a class="nav-link" href="{% url 'machine_learning' %}">Neural Network</a>
                 </li>
             </ul>
         </div>

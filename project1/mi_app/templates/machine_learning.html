@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Math Editor
+{% endblock %}
+
+{% block content %}
+<input type="hidden" id="csrf_token" value="{{ csrf_token }}">
+
+<div class="cover-container">
+    <h2 class="cover-title" id="main-title">NN EDITOR</h2>
+</div>
+
+<div class="container mt-3">
+
+    <div id="main-container">
+
+
+
+    <div class="container mt-5">
+        <h1 class="text-center">Create Neural Network</h1>
+        <form action="{% url 'neural_network' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="y_max">Valor máximo de y:</label>
+                <textarea id="nn_create_layers" name="nn_create_layers"  class="form-control form-control-sm textarea" placeholder="3 5 5 2"></textarea>
+            </div>
+            <button type="submit" class = "btn btn-success btn-block mt-3">Enviar Gráfico</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

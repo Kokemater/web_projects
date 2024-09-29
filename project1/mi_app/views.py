@@ -13,6 +13,19 @@ def main(request):
 
 def editor(request):
     return render(request, 'editor.html')
+def graph_funcs(request):
+    return render(request, "grapher.html")
+def machine_learning(request):
+    return render(request, "machine_learning.html")
+def neural_network(request):
+        if request.method == 'POST':
+            print("!!!!!!!!!!!!!!!!")
+            layers = request.POST.get('nn_create_layers', '0')
+            command = ["manim", "-pqh", "manim_machine_learning.py", "Create_nn", "--", 
+                    f"--layers={layers}"]
+            subprocess.run(command,check=True)
+            video_url = os.path.join(settings.MEDIA_URL, 'videos/manim_graph/1080p60/LatexFunctionGraph.mp4')
+            return render(request, 'watch_vid.html', {'video_url': video_url})
 
 def graficar(request):
     if request.method == 'POST':

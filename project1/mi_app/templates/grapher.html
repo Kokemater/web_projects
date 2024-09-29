@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Math Editor
+{% endblock %}
+
+{% block content %}
+<input type="hidden" id="csrf_token" value="{{ csrf_token }}">
+
+<div class="cover-container">
+    <h2 class="cover-title" id="main-title">GRAPH EDITOR</h2>
+</div>
+
+<div class="container mt-3">
+
+    <div id="main-container">
+<div class="container mt-3"></div>
+
+
+    <div class="container mt-5">
+        <h1 class="text-center">Graficar Fórmula en LaTeX</h1>
+        <form action="{% url 'graficar' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group center">
+                <label for="latex_function">Introduce tu fórmula en LaTeX:</label>
+                <textarea id="latex_function" name="latex_function" class="form-control" rows="4" placeholder="Ejemplo: x^2 + 2x + 1"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="x_min">Valor mínimo de x:</label>
+                <input type="number" step="any" id="x_min" name="x_min" class="form-control form-control-sm" placeholder="Ejemplo: -5">
+            </div>
+            
+            <div class="form-group">
+                <label for="x_max">Valor máximo de x:</label>
+                <input type="number" step="any" id="x_max" name="x_max" class="form-control form-control-sm" placeholder="Ejemplo: 5">
+            </div>
+            
+            <div class="form-group">
+                <label for="y_min">Valor mínimo de y:</label>
+                <input type="number" step="any" id="y_min" name="y_min" class="form-control form-control-sm" placeholder="Ejemplo: -5">
+            </div>
+            
+            <div class="form-group">
+                <label for="y_max">Valor máximo de y:</label>
+                <input type="number" step="any" id="y_max" name="y_max" class="form-control form-control-sm" placeholder="Ejemplo: 30">
+            </div>
+            <button type="submit" class="btn btn-success btn-block mt-3">Enviar Gráfico</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}
