@@ -1,0 +1,5 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/manim_graph/480p15/partial_movie_files/LatexFunctionGraph/1185818338_1351753024_223132457.mp4'
+file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/manim_graph/480p15/partial_movie_files/LatexFunctionGraph/624642324_1141282389_2088038379.mp4'
+file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/manim_graph/480p15/partial_movie_files/LatexFunctionGraph/624642324_3045157495_1913049863.mp4'
+file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/manim_graph/480p15/partial_movie_files/LatexFunctionGraph/624642324_1141282389_1165508237.mp4'

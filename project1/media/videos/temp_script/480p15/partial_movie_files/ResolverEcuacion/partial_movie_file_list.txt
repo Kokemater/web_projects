@@ -1,0 +1,4 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/temp_script/480p15/partial_movie_files/ResolverEcuacion/1185818338_526943872_223132457.mp4'
+file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/temp_script/480p15/partial_movie_files/ResolverEcuacion/624642324_1141282389_1226933436.mp4'
+file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/temp_script/480p15/partial_movie_files/ResolverEcuacion/624642324_3126709789_3190084291.mp4'

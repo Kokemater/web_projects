@@ -55,41 +55,70 @@ function addSymbol(symbol) {
     activeTextarea.focus();
 }
 
-    let sectionCounter = 0; // Contador para secciones de LaTeX
-    let attributeCounter = 0; // Contador para atributos de texto
+// Función para actualizar la vista previa de MathJax
+function updatePreview(textareaId, previewId) {
+    const input = document.getElementById(textareaId);
+    const preview = document.getElementById(previewId).querySelector('div');
+    
+    // Actualiza el contenido de la vista previa con el texto del textarea
+    preview.innerHTML = input.value;
 
-    // Función para crear una nueva sección de LaTeX
-    function createNewSection() {
-        sectionCounter++;
+    // Renderiza el contenido de LaTeX con MathJax
+    MathJax.typesetPromise([preview]);
+}
 
-        const container = document.createElement('div');
-        container.classList.add('section-container', 'mb-3'); // Añadir espacio entre secciones
+// Selecciona todos los textareas cuyo id comienza con 'latex-input-'
+const textareas = document.querySelectorAll('textarea[id^="latex-input-"]');
 
-        const textareaContainer = document.createElement('div');
-        textareaContainer.classList.add('textarea-container');
+// Añade un evento 'input' a cada textarea seleccionado
+textareas.forEach(function(textarea) {
+    textarea.addEventListener('input', function() {
+        const previewContainerId = 'preview-' + textarea.id.substring('latex-input-'.length); // Supone que el preview tiene un ID correspondiente
+        updatePreview(textarea.id, previewContainerId);
+    });
+});
 
-        const textarea = document.createElement('textarea');
-        textarea.name = 'inputText-' + sectionCounter; // Asegurarse de que el nombre sea único
-        textarea.id = 'latex-input-' + sectionCounter;
-        textarea.value = '\\( \\)'; // Agregar \( \)
-        textarea.classList.add('textarea', 'form-control');
-        textarea.setAttribute('placeholder', 'Escribe aquí el código LaTeX');
-        textarea.style.width = "100%"; // Hacer que el textarea ocupe todo el ancho disponible
+// Función para crear una nueva sección de LaTeX
+let sectionCounter = 0; // Asignar el contador a nivel global para seguir incrementando
+function createNewSection() {
+    sectionCounter++;
 
-        textareaContainer.appendChild(textarea);
-        container.appendChild(textareaContainer);
+    const container = document.createElement('div');
+    container.classList.add('section-container', 'mb-3'); // Añadir espacio entre secciones
 
-        const previewContainer = document.createElement('div');
-        previewContainer.classList.add('preview-container', 'mi-clase');
-        previewContainer.id = 'preview-' + sectionCounter;
-        previewContainer.innerHTML = `<div></div>`;
-        container.appendChild(previewContainer);
+    const textareaContainer = document.createElement('div');
+    textareaContainer.classList.add('textarea-container');
 
-        // Insertar el nuevo contenedor al final de dynamicSections
-        document.getElementById('dynamic-sections').appendChild(container);
-    }
+    const textarea = document.createElement('textarea');
+    textarea.name = 'inputText-' + sectionCounter; // Asegurarse de que el nombre sea único
+    textarea.id = 'latex-input-' + sectionCounter;
+    textarea.value = '\\( \\)'; // Agregar \( \)
+    textarea.classList.add('textarea', 'form-control');
+    textarea.setAttribute('placeholder', 'Escribe aquí el código LaTeX');
+    textarea.style.width = "100%"; // Hacer que el textarea ocupe todo el ancho disponible
+    
+    const previewContainer = document.createElement('div');
+    previewContainer.classList.add('preview-container', 'mi-clase');
+    previewContainer.id = 'preview-' + sectionCounter;
+    previewContainer.innerHTML = `<div>Preview</div>`; // Mostrar el texto "Preview" al inicio
+
+    // Añadir textarea y preview al contenedor principal
+    textareaContainer.appendChild(textarea);
+    container.appendChild(textareaContainer);
+    container.appendChild(previewContainer);
+
+    // Insertar el nuevo contenedor al final de dynamicSections
+    document.getElementById('dynamic-sections').appendChild(container);
+
+    // Añadir evento 'input' al textarea creado
+    textarea.addEventListener('input', function() {
+        updatePreview(textarea.id, previewContainer.id);
+    });
+}
+
 
     // Función para añadir un atributo a texto
+    attributeCounter = 0;
     function createAttributeSection() {
         attributeCounter++;
 
@@ -170,18 +199,14 @@ document.addEventListener('DOMContentLoaded', function() {
             updatePreview(textarea.id, previewContainer.id);
         });
     
-        function updatePreview(textareaId, previewId) {
-            const input = document.getElementById(textareaId);
-            const preview = document.getElementById(previewId).querySelector('div');
-            preview.innerHTML = input.value;
-            MathJax.typesetPromise([preview]);
-        }
-    }
+
     // Evento para crear una nueva sección
     createDivBtn.addEventListener('click', createNewSection);
 
 });
 */
+
+
 function toggleGreekLetters() {
     var lettersDiv = document.getElementById('greekLetters');
     if (lettersDiv.style.display === 'none') {
