@@ -1,28 +1,38 @@
 from manim import *
 
-class Test(Scene):
-    def construct(self):
-        formula = MathTex("\\sum_{n=1}^{\infty}")
-        formula[0][0].set_color(RED)
-        formula[0][1].set_color(GREEN)
-        formula[0][2].set_color(BLUE)
-        self.add(formula)
-
-def find_next_closed_key(expr):
-    """{x^2}, return 4
-    {x_{2} + 1} return 10
+import  re
+def eliminar_espaciadores(texto):
     """
-    open_braces = 0
-    for i in range(len(expr)):
-        if expr[i] == '{':
-            open_braces += 1  # Aumentar contador cuando se encuentra '{'
-        elif expr[i] == '}':
-            open_braces -= 1  # Disminuir contador cuando se encuentra '}'
-        if open_braces == 0:
-            return i
-    # Si se recorrió toda la cadena y no se encontró el cierre, retornar -1
-    return -1
+    Esta función elimina todos los caracteres espaciadores de un texto,
+    incluyendo espacios, tabulaciones, saltos de línea, y retornos de carro.
+    
+    Args:
+        texto (str): El texto del que se desea eliminar los espaciadores.
+        
+    Returns:
+        str: El texto sin caracteres espaciadores.
+    """
+    # Usar una expresión regular para eliminar todos los espacios en blanco
+    return re.sub(r'\s+', ' ', texto)
 
+class VMatrixExample(Scene):
+    def construct(self):
+        # Define the content of the matrix
+        matrix_content = r"\text{a)}\qquad\begin{vmatrix}a & b\\ a_1 & b_1\\\end{vmatrix}\neq0\quad\Rightarrow\quad\left\{\begin{array}{l}x=\xi+h\\y=\eta+k\end{array}\right.\quad,\quad h,k=\text{cte.}"
+        matrix_content=  "\\text{a)}\\qquad\\begin{vmatrix}\r\na &     b\\\\\r\n        a_1 &                              b_1\\\\\r\n\\end{vmatrix}\\neq0\\quad\\Rightarrow\\quad\\                             left\\{\\begin{array}{l}\r\n        x=\\xi+h\\\\\r\n                               y=\\eta+k\r\n\\end{array}\\right.\\quad,\\quad                              h,k=\\text{cte.}"
+        matrix_content = eliminar_espaciadores(matrix_content)
+        # Create the MathTex object with the matrix
+        matrix = MathTex(matrix_content)
+
+        # Position the matrix in the center
+        matrix.move_to(ORIGIN)
+
+        # Add the matrix to the scene
+        self.play(Write(matrix))
+        self.wait(2)
+
+# To run this, you need to use the following command:
+# manim -pql your_file_name.py VMatrixExample
 
     
 

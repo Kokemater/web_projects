@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Math Editor
+{% endblock %}
+
+{% block content %}
+<input type="hidden" id="csrf_token" value="{{ csrf_token }}">
+
+<div class="cover-container">
+    <h2 class="cover-title" id="main-title">Sorting Algorithms</h2>
+</div>
+
+<div class="container mt-3">
+
+    <div id="main-container">
+<div class="container mt-3"></div>
+<h3>Test these algorithms</h3>
+<button id="insert-code-btn" class="btn btn-primary mb-3">Selection Sort</button>
+    <div class="container mt-5">
+        <h1 class="text-center">Create one yourself</h1>
+        <form action="{% url 'send_sorting_algorithm' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group center">
+                <label for="latex_function">Write your own algorythm</label>
+                <textarea id="sorting-algorytm" class="form-control" rows="10" placeholder="El código aparecerá aquí..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-block mt-3">Enviar Gráfico</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

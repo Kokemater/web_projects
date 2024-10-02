@@ -1,13 +1,89 @@
 from manim import *
-import json
+import re
 import sys
+import json
 
-texts = sys.argv[4]
-colors = sys.argv[5]
-texts = json.loads(texts)
-colors = json.loads(colors)
-print(texts)
-print(colors)
+import re
+def obtener_primer_valor_no_vacio(tupla):
+    """
+    Esta función toma una tupla y devuelve el primer elemento que no esté vacío como un string.
+    
+    Args:
+        tupla (tuple): Una tupla que contiene varios elementos.
+        
+    Returns:
+        str: El primer elemento no vacío de la tupla como un string, o un string vacío si todos son vacíos.
+    """
+    for elemento in tupla:
+        if elemento:  # Verifica si el elemento no está vacío
+            return elemento
+    return '' 
+
+def individual_formulas(latex_document):
+    """
+    Esta función toma un documento LaTeX como cadena y devuelve un diccionario
+    con todas las fórmulas encontradas. El formato del diccionario será {"formula-1": "contenido", ...}.
+    
+    Args:
+        latex_document (str): El documento LaTeX como cadena de texto.
+        
+    Returns:
+        dict: Un diccionario con las fórmulas encontradas en el documento.
+    """
+    # Expresiones regulares para identificar las fórmulas
+    formula_patterns = [
+        r"\$\$(.*?)\$\$",          # Fórmulas entre $$ ... $$
+        r"\\\[(.*?)\\\]",           # Fórmulas entre \[ ... \]
+        r"\\begin{equation}(.*?)\\end{equation}",  # Fórmulas entre \begin{equation} ... \end{equation}
+    ]
+
+    # Compilar todas las expresiones regulares en una sola
+    combined_pattern = "|".join(formula_patterns)
+
+    matches = re.findall(combined_pattern, latex_document, re.DOTALL)
+    # Filtrar resultados para extraer solo las fórmulas capturadas como strings
+    # No se utilizarán grupos, así que simplemente aplicamos .strip() a cada coincidencia
+    formulas = [match for match in matches]
+    print(formulas)
+    for i in range(len(formulas)):
+        formula = obtener_primer_valor_no_vacio(formulas[i])
+        formulas[i] = formula
+    print(formulas)
+    # Crear un diccionario con las fórmulas encontradas
+    formulas_dict = {f"formula-{i+1}": formula for i, formula in enumerate(formulas) if formula}
+
+    return formulas_dict
+
+
+# Capturando argumentos de la línea de comandos
+try:
+    texts = sys.argv[4]
+    colors = sys.argv[5]
+    latex_document = sys.argv[6]
+    duration = sys.argv[7]
+
+    # Convertir los JSON strings a objetos de Python
+    texts = json.loads(texts)
+    colors = json.loads(colors)
+    latex_document = json.loads(latex_document)
+    duration = json.loads(duration)
+    latex_document = latex_document["latex-content"]
+    duration_val = list(duration.values())
+    for i in range(len(duration_val)):
+        duration_val[i] = int(duration_val[i])
+    print(duration_val)
+
+    print("Textos:", texts)
+    print("Colores:", colors)
+    print("Documento LaTeX:", latex_document)
+
+    if latex_document:
+        print("Extrayendo fórmulas del documento LaTeX...")
+        texts = individual_formulas(latex_document)
+        for i in texts:
+            print(texts[i])
+except json.JSONDecodeError:
+    print("Error: No se pudo decodificar alguno de los argumentos JSON.")
 
 def find_next_closed_key(expr):
     """{x^2}, return 4
@@ -142,6 +218,9 @@ class ResolverEcuacion(Scene):
             else:
                 self.add_sound("mi_app/static/sounds/swap.mp3")
                 self.play(Transform(math_text[i-1], math_text[i]))
-            self.wait(2)
+            if duration_val:
+                self.wait(duration_val[i])
+            else:
+                self.wait(2)
             self.remove(math_text[i-1])
         self.play(Unwrite(math_text[-1])) 

@@ -10,7 +10,9 @@ urlpatterns = [
     path('machine_learning',views.machine_learning, name='machine_learning'),
     path('recibir_texto/', views.recibir_texto, name='recibir_texto'),
     path('graficar/', views.graficar, name='graficar'),
-    path('neural_network/', views.neural_network, name='neural_network')
+    path('neural_network/', views.neural_network, name='neural_network'),
+    path('sorting_algorithms/', views.sorting_algorithms, name = 'sorting_algorithms'),
+    path('send_sorting_algorithm', views.send_sorting_algorithm, name='send_sorting_algorithm'),
 
 
 ]

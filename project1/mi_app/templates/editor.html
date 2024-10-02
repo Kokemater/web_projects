@@ -13,6 +13,7 @@ Math Editor
 
 <div class="container mt-3">
 
+    <div id="main-container">
  <!-- Toolbar -->
 
  <div class="d-flex flex-wrap" role="group" aria-label="Toolbar">
@@ -445,16 +446,17 @@ Math Editor
             </ul>
         </ul>
     
-<div id="main-container">
 
+</div>
    
 <div class="container mt-3">
     <h1 class="text-center">LaTeX EDITOR</h1>
 
     <!-- Botones de acciones -->
     <button id="create-div-btn" class="btn btn-info mb-3">Crear nueva sección</button>
+    <button class="btn btn-success" id="paste-latex">Paste your LaTeX document</button>
+
     <button id="create-attribute-btn" class="btn btn-warning mb-3">Añadir atributo a texto</button>
-    <button id="paste-latex" class="btn btn-success" >Paste your LaTeX</button>
 
     <!-- Formulario para enviar el contenido -->
     <form action="{% url 'recibir_texto' %}" method="post">
@@ -463,17 +465,19 @@ Math Editor
         <!-- Contenedor dinámico para secciones -->
         <div id="dynamic-sections"></div>
 
-        <!-- Contenedor dinámico para atributos -->
-        <div id="dynamic-attributes"></div>
+
 
         <!-- Textarea para pegar código LaTeX -->
-        <div id="dynamic-textarea"></div>
-
+        <div class="form-group" style="display: none;" id="paste-latex-textarea">
+            <label for="latex-content">Paste your LaTeX here:</label>
+            <textarea id="latex-content" name="latex-content" class="form-control" rows="10" placeholder="Paste your LaTeX code here..."></textarea>
+        </div>
+        <!-- Contenedor dinámico para atributos -->
+                <div id="dynamic-attributes"></div>
         
         <!-- Botón para enviar el formulario -->
         <button type="submit" class="btn btn-success">Submit</button>
     </form>
-</div>
 </div>
 
 

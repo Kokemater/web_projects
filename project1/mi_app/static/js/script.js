@@ -1,193 +1,136 @@
-document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('paste-latex').addEventListener('click', function () {
-        console.log("hiasdf");
-        document.getElementById('paste-latex-textarea').style.display = 'block';
-    });
-});
+document.addEventListener("DOMContentLoaded", function () {
+    /////////////////////////////////////
+    ////////////////////////////////////
+    //  SORTING ALGORITHMS ////////////
 
-  // Función para verificar si un elemento está en la vista
-    function isElementInViewport(el) {
-        const rect = el.getBoundingClientRect();
-        return (
-            rect.top >= 0 &&
-            rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-        );
+    const sorting_alg_insertCodeBtn = document.getElementById("insert-code-btn");
+    const sortingTextarea = document.getElementById("sorting-algorytm");
+
+    // Código de Selection Sort en formato de string
+    const selectionSortCode = `def selection_sort(list_of_numbers):
+    # Recorre toda la lista
+    for i in range(len(list_of_numbers)):
+    # Encuentra el índice del elemento mínimo en el resto de la lista desordenada
+    min_index = i
+    for j in range(i + 1, len(list_of_numbers)):
+        if list_of_numbers[j] < list_of_numbers[min_index]:
+            min_index = j
+
+    # Intercambia el elemento mínimo con el primer elemento de la sublista desordenada
+    list_of_numbers[i], list_of_numbers[min_index] = list_of_numbers[min_index], list_of_numbers[i]
+`;
+
+    // Añade el código al textarea cuando se hace clic en el botón
+    if (sorting_alg_insertCodeBtn) {
+        sorting_alg_insertCodeBtn.addEventListener("click", () => {
+            sortingTextarea.value = selectionSortCode;
+        });
     }
+    
+    let activeTextarea = null;
 
-    // Función para manejar el scroll
-    function handleScroll() {
-        const title = document.getElementById('main-title');
-        if (isElementInViewport(title)) {
-            title.classList.add('animate'); // Añade la clase de animación si está en la vista
-            window.removeEventListener('scroll', handleScroll); // Remueve el listener para evitar múltiples llamadas
+    // Detectar el textarea activo cuando recibe el foco
+    document.addEventListener('focusin', function(event) {
+        if (event.target.tagName === 'TEXTAREA') {
+            activeTextarea = event.target; // Guardar el textarea que tiene el foco
         }
-    }
-
-    // Agrega el event listener de scroll
-    window.addEventListener('scroll', handleScroll);
-
-    // Llama a la función al cargar la página por si el título ya está visible
-    document.addEventListener('DOMContentLoaded', handleScroll);
-
-
-
-
-let activeTextarea = null;
-
-// Detectar el textarea activo cuando recibe el foco
-document.addEventListener('focusin', function(event) {
-    if (event.target.tagName === 'TEXTAREA') {
-        activeTextarea = event.target; // Guardar el textarea que tiene el foco
-    }
-});
-
-// Función para añadir el símbolo al textarea activo
-function addSymbol(symbol) {
-    console.log(activeTextarea);
-    if (!activeTextarea) return; // Si no hay un textarea activo, salir
-
-    const cursorPos = activeTextarea.selectionStart;  // Posición inicial del cursor
-    const textBefore = activeTextarea.value.substring(0, cursorPos);  // Texto antes del cursor
-    const textAfter = activeTextarea.value.substring(cursorPos);  // Texto después del cursor
-
-    // Insertar el símbolo en la posición del cursor
-    activeTextarea.value = textBefore + symbol + textAfter;
-
-    // Mover el cursor a la posición justo después del símbolo insertado
-    activeTextarea.selectionEnd = cursorPos + symbol.length;
-    
-    // Devolver el foco al textarea
-    activeTextarea.focus();
-}
-
-// Función para actualizar la vista previa de MathJax
-function updatePreview(textareaId, previewId) {
-    const input = document.getElementById(textareaId);
-    const preview = document.getElementById(previewId).querySelector('div');
-    
-    // Actualiza el contenido de la vista previa con el texto del textarea
-    preview.innerHTML = input.value;
-
-    // Renderiza el contenido de LaTeX con MathJax
-    MathJax.typesetPromise([preview]);
-}
-
-// Selecciona todos los textareas cuyo id comienza con 'latex-input-'
-const textareas = document.querySelectorAll('textarea[id^="latex-input-"]');
-
-// Añade un evento 'input' a cada textarea seleccionado
-textareas.forEach(function(textarea) {
-    textarea.addEventListener('input', function() {
-        const previewContainerId = 'preview-' + textarea.id.substring('latex-input-'.length); // Supone que el preview tiene un ID correspondiente
-        updatePreview(textarea.id, previewContainerId);
     });
-});
 
-// Función para crear una nueva sección de LaTeX
-let sectionCounter = 0; // Asignar el contador a nivel global para seguir incrementando
-function createNewSection() {
-    sectionCounter++;
+    // Función para añadir el símbolo al textarea activo
+    function addSymbol(symbol) {
+        if (!activeTextarea) return; // Si no hay un textarea activo, salir
 
-    const container = document.createElement('div');
-    container.classList.add('section-container', 'mb-3'); // Añadir espacio entre secciones
+        const cursorPos = activeTextarea.selectionStart;  // Posición inicial del cursor
+        const textBefore = activeTextarea.value.substring(0, cursorPos);  // Texto antes del cursor
+        const textAfter = activeTextarea.value.substring(cursorPos);  // Texto después del cursor
 
-    const textareaContainer = document.createElement('div');
-    textareaContainer.classList.add('textarea-container');
+        // Insertar el símbolo en la posición del cursor
+        activeTextarea.value = textBefore + symbol + textAfter;
 
-    const textarea = document.createElement('textarea');
-    textarea.name = 'inputText-' + sectionCounter; // Asegurarse de que el nombre sea único
-    textarea.id = 'latex-input-' + sectionCounter;
-    textarea.value = '\\( \\)'; // Agregar \( \)
-    textarea.classList.add('textarea', 'form-control');
-    textarea.setAttribute('placeholder', 'Escribe aquí el código LaTeX');
-    textarea.style.width = "100%"; // Hacer que el textarea ocupe todo el ancho disponible
-    
-    const previewContainer = document.createElement('div');
-    previewContainer.classList.add('preview-container', 'mi-clase');
-    previewContainer.id = 'preview-' + sectionCounter;
-    previewContainer.innerHTML = `<div>Preview</div>`; // Mostrar el texto "Preview" al inicio
+        // Mover el cursor a la posición justo después del símbolo insertado
+        activeTextarea.selectionEnd = cursorPos + symbol.length;
 
-    // Añadir textarea y preview al contenedor principal
-    textareaContainer.appendChild(textarea);
-    container.appendChild(textareaContainer);
-    container.appendChild(previewContainer);
-
-    // Insertar el nuevo contenedor al final de dynamicSections
-    document.getElementById('dynamic-sections').appendChild(container);
-
-    // Añadir evento 'input' al textarea creado
-    textarea.addEventListener('input', function() {
-        updatePreview(textarea.id, previewContainer.id);
-    });
-}
-
-
-    // Función para añadir un atributo a texto
-    attributeCounter = 0;
-    function createAttributeSection() {
-        attributeCounter++;
-
-        const container = document.createElement('div');
-        container.classList.add('attribute-container', 'mb-2');
-
-        const textInput = document.createElement('input');
-        textInput.type = 'text';
-        textInput.name = 'text_attribute-' + attributeCounter;
-        textInput.classList.add('form-control', 'mb-1');
-        textInput.placeholder = 'Texto';
-
-        const colorInput = document.createElement('input');
-        colorInput.type = 'color';
-        colorInput.name = 'color_attribute-' + attributeCounter;
-        colorInput.classList.add('form-control');
-
-        container.appendChild(textInput);
-        container.appendChild(colorInput);
-
-        // Insertar el nuevo contenedor al final de dynamicAttributes
-        document.getElementById('dynamic-attributes').appendChild(container);
+        // Devolver el foco al textarea
+        activeTextarea.focus();
     }
-    function create_big_textarea() {
-        // Crear el contenedor principal de la sección
+
+    // Función para crear una nueva sección de LaTeX
+    let sectionCounter = 0; // Asignar el contador a nivel global para seguir incrementando
+    function createNewSection() {
+        sectionCounter++;
+
         const container = document.createElement('div');
         container.classList.add('section-container', 'mb-3'); // Añadir espacio entre secciones
-    
-        // Crear el contenedor del textarea
+
         const textareaContainer = document.createElement('div');
         textareaContainer.classList.add('textarea-container');
-    
-        // Crear el textarea con un ID único
+
+        // Crear el elemento numérico para 'duration'
+        const durationLabel = document.createElement('label');
+        durationLabel.textContent = 'Duration';
+        durationLabel.setAttribute('for', 'duration-' + sectionCounter);
+        durationLabel.style.fontSize = 'small'; // Hacer que el texto sea pequeño
+        durationLabel.style.marginRight = '5px'; // Espacio entre el label y el input
+
+        const durationInput = document.createElement('input');
+        durationInput.type = 'number';
+        durationInput.name = 'duration-' + sectionCounter; // Asegurarse de que el nombre sea único
+        durationInput.id = 'duration-' + sectionCounter;
+        durationInput.value = 2; // Inicializar a 2
+        durationInput.style.width = '60px'; // Ajustar el ancho si es necesario
+
+        // Añadir label y input de duration al contenedor
+        const durationContainer = document.createElement('div');
+        durationContainer.appendChild(durationLabel);
+        durationContainer.appendChild(durationInput);
+
         const textarea = document.createElement('textarea');
-        textarea.name = 'paste-latex-textarea'; // Asegurarse de que el nombre sea consistente
-        textarea.id = 'paste-latex-textarea-' + document.getElementsByClassName('textarea').length; // ID único
+        textarea.name = 'inputText-' + sectionCounter; // Asegurarse de que el nombre sea único
+        textarea.id = 'latex-input-' + sectionCounter;
+        textarea.value = '\\( \\)'; // Agregar \( \)
         textarea.classList.add('textarea', 'form-control');
-        textarea.setAttribute('placeholder', 'Paste your LaTeX document here...');
+        textarea.setAttribute('placeholder', 'Escribe aquí el código LaTeX');
         textarea.style.width = "100%"; // Hacer que el textarea ocupe todo el ancho disponible
-    
-        // Añadir el textarea dentro de su contenedor
+
+        const previewContainer = document.createElement('div');
+        previewContainer.classList.add('preview-container', 'mi-clase');
+        previewContainer.id = 'preview-' + sectionCounter;
+        previewContainer.innerHTML = `<div>Preview</div>`; // Mostrar el texto "Preview" al inicio
+
+        // Añadir duration y textarea al contenedor principal
+        textareaContainer.appendChild(durationContainer); // Añadir el contenedor de duration
         textareaContainer.appendChild(textarea);
-    
-        // Añadir el contenedor del textarea al contenedor principal
         container.appendChild(textareaContainer);
-    
-        // Finalmente, agregar todo el contenedor a la sección deseada en el DOM
-        document.getElementById('dynamic-textarea').appendChild(container);
-    }
-    
-    // Añadir eventos a los botones
-    document.getElementById('create-div-btn').addEventListener('click', createNewSection);
-    document.getElementById('create-attribute-btn').addEventListener('click', createAttributeSection);
-    document.getElementById('paste-latex').addEventListener('click', create_big_textarea);
-    
+        container.appendChild(previewContainer);
 
-function toggleGreekLetters() {
-    var lettersDiv = document.getElementById('greekLetters');
-    if (lettersDiv.style.display === 'none') {
-        lettersDiv.style.display = 'block';
-    } else {
-        lettersDiv.style.display = 'none';
-    }
-}
+        // Insertar el nuevo contenedor al final de dynamicSections
+        document.getElementById('dynamic-sections').appendChild(container);
 
+        // Añadir evento 'input' al textarea creado
+        textarea.addEventListener('input', function() {
+            updatePreview(textarea.id, previewContainer.id);
+        });
+    }
+
+    const createDivBtn = document.getElementById("create-div-btn");
+    const pasteLatexBtn = document.getElementById("paste-latex");
+    const dynamicSections = document.getElementById("dynamic-sections");
+    const pasteLatexTextarea = document.getElementById("paste-latex-textarea");
+    const attributeBtn = document.getElementById('create-attribute-btn');
+
+    // Verifica que los elementos no sean nulos antes de agregar eventos
+    if (createDivBtn) {
+        createDivBtn.addEventListener('click', createNewSection);
+    }
+
+    if (pasteLatexBtn) {
+        pasteLatexBtn.addEventListener("click", function () {
+            pasteLatexTextarea.style.display = "block";
+            dynamicSections.style.display = "none";
+        });
+    }
+
+    if (attributeBtn) {
+        attributeBtn.addEventListener('click', createAttributeSection);
+    }
+});
