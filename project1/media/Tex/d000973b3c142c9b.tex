@@ -1,0 +1,9 @@
+\documentclass[preview]{standalone}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\begin{document}
+\begin{align*}
+f(x) = \sum_{n=1}^{\infty} \left[ \frac{(-1)^{n+1}}{n^2} \cdot \int_{-\infty}^{\infty} e^{-t^2} \cdot \cos\left( \frac{2\pi n t}{x} \right) \, dt \right] + \Gamma\left( \frac{1}{2} \right) \cdot \zeta(2) + \lim_{y \to \infty} \left[ \int_{0}^{y} \frac{\sin(x t)}{t^3 + \tan(t)} \, dt \right]
+\end{align*}
+\end{document}

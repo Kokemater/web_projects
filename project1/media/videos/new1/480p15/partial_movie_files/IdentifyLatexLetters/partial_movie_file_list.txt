@@ -1,4 +1,0 @@
-# This file is used internally by FFMPEG.
-file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/new1/480p15/partial_movie_files/IdentifyLatexLetters/1185818338_3004698477_223132457.mp4'
-file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/new1/480p15/partial_movie_files/IdentifyLatexLetters/624642324_3890345977_1574586987.mp4'
-file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/new1/480p15/partial_movie_files/IdentifyLatexLetters/624642324_2354292916_1721786267.mp4'

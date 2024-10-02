@@ -1,4 +1,0 @@
-# This file is used internally by FFMPEG.
-file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/temp_script/480p15/partial_movie_files/NameofAnimation/1185818338_2820865339_223132457.mp4'
-file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/temp_script/480p15/partial_movie_files/NameofAnimation/624642324_1141282389_3113618495.mp4'
-file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/temp_script/480p15/partial_movie_files/NameofAnimation/624642324_2264695145_2536926767.mp4'

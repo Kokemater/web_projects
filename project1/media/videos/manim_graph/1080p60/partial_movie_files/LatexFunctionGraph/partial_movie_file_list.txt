@@ -1,5 +1,5 @@
 # This file is used internally by FFMPEG.
-file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/manim_graph/1080p60/partial_movie_files/LatexFunctionGraph/3529212410_1655400635_223132457.mp4'
-file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/manim_graph/1080p60/partial_movie_files/LatexFunctionGraph/3040924799_1141282389_1852178559.mp4'
-file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/manim_graph/1080p60/partial_movie_files/LatexFunctionGraph/3040924799_371608714_573132151.mp4'
-file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/manim_graph/1080p60/partial_movie_files/LatexFunctionGraph/3040924799_1141282389_310863246.mp4'
+file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/manim_graph/1080p60/partial_movie_files/LatexFunctionGraph/3529212410_3118080829_223132457.mp4'
+file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/manim_graph/1080p60/partial_movie_files/LatexFunctionGraph/3040924799_1141282389_1470459228.mp4'
+file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/manim_graph/1080p60/partial_movie_files/LatexFunctionGraph/3040924799_1838456648_2421519174.mp4'
+file 'file:C:/Users/maris/OneDrive/Escritorio/Programacion verano/web/project1/media/videos/manim_graph/1080p60/partial_movie_files/LatexFunctionGraph/3040924799_1141282389_2290404761.mp4'

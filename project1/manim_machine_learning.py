@@ -102,3 +102,4 @@ class Create_nn(NeuralNetworkScene):
         layers = self.create_layers(self.layers)  # Crear las capas
         connections = self.create_connections(layers)  # Crear las conexiones
         self.add(layers, connections)  # Añadir las capas a la escena
+        self.pause()

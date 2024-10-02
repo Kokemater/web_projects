@@ -1,4 +1,11 @@
-    // Función para verificar si un elemento está en la vista
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('paste-latex').addEventListener('click', function () {
+        console.log("hiasdf");
+        document.getElementById('paste-latex-textarea').style.display = 'block';
+    });
+});
+
+  // Función para verificar si un elemento está en la vista
     function isElementInViewport(el) {
         const rect = el.getBoundingClientRect();
         return (
@@ -142,70 +149,38 @@ function createNewSection() {
         // Insertar el nuevo contenedor al final de dynamicAttributes
         document.getElementById('dynamic-attributes').appendChild(container);
     }
-
-// Evento para crear nuevas secciones
-document.getElementById('create-div-btn').addEventListener('click', createNewSection);
-// Evento para añadir atributos
-document.getElementById('create-attribute-btn').addEventListener('click', createAttributeSection);
-
-    /*  
-document.addEventListener('DOMContentLoaded', function() {
-    const createDivBtn = document.getElementById('create-div-btn');
-    const dynamicSections = document.getElementById('dynamic-sections');
-
-    // Obtener el token CSRF desde el input oculto en el HTML
-    const csrfToken = document.getElementById('csrf_token').value;
-
-
-
-    function createNewSection() {
-        let sectionCounter = 0;
-
-        sectionCounter++;
-    
-        // Crear un nuevo contenedor para la sección
+    function create_big_textarea() {
+        // Crear el contenedor principal de la sección
         const container = document.createElement('div');
-        container.classList.add('section-container');
+        container.classList.add('section-container', 'mb-3'); // Añadir espacio entre secciones
     
-        // Crear el textarea
+        // Crear el contenedor del textarea
         const textareaContainer = document.createElement('div');
         textareaContainer.classList.add('textarea-container');
     
+        // Crear el textarea con un ID único
         const textarea = document.createElement('textarea');
-        textarea.name = 'inputText-' + sectionCounter;
-        textarea.id = 'latex-input-' + sectionCounter;
-        textarea.value = '\\( \\)'; // Agregar \( \)
+        textarea.name = 'paste-latex-textarea'; // Asegurarse de que el nombre sea consistente
+        textarea.id = 'paste-latex-textarea-' + document.getElementsByClassName('textarea').length; // ID único
         textarea.classList.add('textarea', 'form-control');
-        textarea.setAttribute('placeholder', 'Escribe aquí el código LaTeX');
-        textarea.cols = 80; // Establecer el número de columnas
+        textarea.setAttribute('placeholder', 'Paste your LaTeX document here...');
         textarea.style.width = "100%"; // Hacer que el textarea ocupe todo el ancho disponible
-        //textarea.style.resize = "none"; // Opcional: prevenir el cambio de tamaño por parte del usuario
     
+        // Añadir el textarea dentro de su contenedor
         textareaContainer.appendChild(textarea);
+    
+        // Añadir el contenedor del textarea al contenedor principal
         container.appendChild(textareaContainer);
     
-        // Crear el contenedor de la vista previa
-        const previewContainer = document.createElement('div');
-        previewContainer.classList.add('preview-container', 'mi-clase');
-        previewContainer.id = 'preview-' + sectionCounter;
-        previewContainer.innerHTML = `<div></div>`;
-        container.appendChild(previewContainer);
+        // Finalmente, agregar todo el contenedor a la sección deseada en el DOM
+        document.getElementById('dynamic-textarea').appendChild(container);
+    }
     
-        // Insertar el nuevo contenedor al principio de dynamicSections
-        dynamicSections.insertBefore(container, dynamicSections.firstChild);
+    // Añadir eventos a los botones
+    document.getElementById('create-div-btn').addEventListener('click', createNewSection);
+    document.getElementById('create-attribute-btn').addEventListener('click', createAttributeSection);
+    document.getElementById('paste-latex').addEventListener('click', create_big_textarea);
     
-        // Agregar el evento para actualizar la vista previa
-        textarea.addEventListener('input', function() {
-            updatePreview(textarea.id, previewContainer.id);
-        });
-    
-
-    // Evento para crear una nueva sección
-    createDivBtn.addEventListener('click', createNewSection);
-
-});
-*/
-
 
 function toggleGreekLetters() {
     var lettersDiv = document.getElementById('greekLetters');
@@ -216,4 +191,3 @@ function toggleGreekLetters() {
     }
 }
 
-////////////////////////////////////// Propperties
